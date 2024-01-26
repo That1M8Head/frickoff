@@ -4,10 +4,11 @@ serious = false
 paranoid = false
 
 [pathdefs]
-# Define paths for Frick Off to be aware off. Special keywords are HOME and CONFIG.
+# Define paths for Frick Off to be aware off. Special keywords are HOME, CONFIG and LOCAL.
 vim = "HOME/.vim/"
 emacs = "HOME/.emacs.d/"
-nvim = "CONFIG/nvim/"
-# On Windows, HOME is C:\Users\<user>\ and CONFIG is C:\Users\<user>\AppData\Roaming.
-# On Linux, HOME is /home/<user>/ and CONFIG is /home/<user>/.config/.
+frickoff = "CONFIG/frickoff/"
+nvim = "LOCAL/nvim/"
+# On Windows, HOME is C:\Users\<user>\, CONFIG is C:\Users\<user>\AppData\Roaming and LOCAL is C:\Users\<user>\AppData\Local.
+# On Linux, HOME is /home/<user>/ and both CONFIG and LOCAL are /home/<user>/.config/.
 # YMMV on other OSes.
