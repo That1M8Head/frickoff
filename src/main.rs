@@ -1,15 +1,25 @@
 use dirs::{home_dir, config_dir};
+use std::collections::HashMap;
 mod functions;
 mod config;
 mod structs;
 use functions::*;
 use structs::*;
 
+pub fn placeholder_behaviour(confirmation: &str, confirmation_prompt: &str, messages: &HashMap<&str, &str>, options: &[String]) {
+    println!("Apologies, but there's nothing useful beyond this point.");
+    if confirm_with_prompt("Want to quit?", confirmation, confirmation_prompt, messages, options) {
+        std::process::exit(0);
+    }
+}
+
 fn main() {
     let messages = Messages::new();
     let args: Vec<String> = std::env::args().collect();
 
-    check_argument_count(&args, &messages);
+    if !check_argument_count(&args, &messages) {
+        std::process::exit(1);
+    }
 
     let utility_name = &args[1];
     let options = &args[2..];
@@ -35,7 +45,10 @@ fn main() {
 
     let messages = determine_message_type(options, &configuration, &messages);
 
-    let (confirmation, confirmation_prompt) = determine_confirmation(options, &configuration);
+    let (
+        confirmation, 
+        confirmation_prompt
+    ) = determine_confirmation(options, &configuration);
 
     if options.contains(&"--options".to_string()) {
         println!("{}", messages.get("literal_options").unwrap());
@@ -60,5 +73,5 @@ fn main() {
         }
     }
 
-    placeholder_behaviour(confirmation, confirmation_prompt, &messages);
+    placeholder_behaviour(confirmation, confirmation_prompt, &messages, options);
 }
