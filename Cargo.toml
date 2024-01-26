@@ -1,5 +1,6 @@
 [package]
 name = "frickoff"
+description = "A utility that tells configuration files to frick off and get deleted."
 version = "0.1.0"
 edition = "2021"
 

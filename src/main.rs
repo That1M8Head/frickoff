@@ -1,3 +1,10 @@
+/// Frick Off (frickoff) - A utility that tells configuration files to frick
+/// off and get deleted.
+/// 
+/// * Author: Arsalan "Velocity" Kazmi <sonicspeed848@gmail.com>
+/// * License: GPLv3
+/// * Repository: https://github.com/that1m8head/frickoff
+
 use std::collections::HashMap;
 mod functions;
 mod config;
