@@ -28,7 +28,7 @@ frameworks.
 Maybe you made the grave mistake of using LazyVim and your Neovim installation
 just completely fricked up.
 
-Maybe you're a Windows user and /AppData/Roaming/ is hard to get to!
+Maybe you're a Windows user and `C:\Users\usern\AppData\Roaming\` is hard to get to!
 
 Whatever your use case, Frick Off is here for you, to tell those configs to just
 frick off. Even if you don't need it.
