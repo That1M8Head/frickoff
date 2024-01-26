@@ -17,6 +17,7 @@ impl Messages {
             ("no_argument", "What would you like to frick off?"),
             ("no_config", "There is no data in UTILITY's config, so it cannot frick off."),
             ("no_config_directory", "There seems to be no config directory on your system. That doesn't seem right..."),
+            ("no_home_directory", "There seems to be no home directory on your system. That's definitely not right."),
             ("no_such_utility", "I don't know about a utility named UTILITY. You should add it in FRICKOFF_CONFIG_PATH."),
             ("success", "Fricking-off complete. Want to make a new Git repository?"),
         ].iter().cloned().collect();
@@ -29,6 +30,7 @@ impl Messages {
             ("no_argument", "No utility specified. Cannot proceed."),
             ("no_config", "UTILITY_CONFIG_PATH does not exist or the directory is empty."),
             ("no_config_directory", "Could not find a valid configuration directory."),
+            ("no_home_directory", "Could not find a valid home directory."),
             ("no_such_utility", "No such utility named UTILITY. Consider adding its path in FRICKOFF_CONFIG_PATH."),
             ("success", "Deletion succeeded. Initialise a new Git repository?"),
         ].iter().cloned().collect();
@@ -96,6 +98,7 @@ fn main() {
         std::process::exit(0);
     }
 
+    let home_path = home_dir().expect(messages.get("no_home_directory").unwrap());
     let config_path = config_dir().expect(messages.get("no_config_directory").unwrap());
 
     if options.len() > 1 && !valid_options.contains(&options[0].as_str()) {
