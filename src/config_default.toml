@@ -1,0 +1,13 @@
+[frickoff]
+# Configure Frick Off.
+serious = false
+paranoid = false
+
+[pathdefs]
+# Define paths for Frick Off to be aware off. Special keywords are HOME and CONFIG.
+vim = "HOME/.vim/"
+emacs = "HOME/.emacs.d/"
+nvim = "CONFIG/nvim/"
+# On Windows, HOME is C:\Users\<user>\ and CONFIG is C:\Users\<user>\AppData\Roaming.
+# On Linux, HOME is /home/<user>/ and CONFIG is /home/<user>/.config/.
+# YMMV on other OSes.
