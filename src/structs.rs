@@ -1,10 +1,19 @@
 use std::collections::HashMap;
 
+/// The `Messages` struct contains Frick Off's messages.
+/// 
+/// # Fields
+/// * `jokey` - A hashmap containing the jokey messages.
+/// * `serious` - A hashmap containing the serious messages.
 pub struct Messages {
     pub jokey: HashMap<&'static str, &'static str>,
     pub serious: HashMap<&'static str, &'static str>,
 }
 
+/// The implementation of the `Messages` struct.
+/// 
+/// # Methods
+/// * `new()` - Creates a new `Messages` struct.
 impl Messages {
     pub fn new() -> Self {
         let jokey_messages: HashMap<&str, &str> = [

@@ -1,4 +1,3 @@
-use dirs::{home_dir, config_dir};
 use std::collections::HashMap;
 mod functions;
 mod config;
@@ -6,13 +5,30 @@ mod structs;
 use functions::*;
 use structs::*;
 
-pub fn placeholder_behaviour(confirmation: &str, confirmation_prompt: &str, messages: &HashMap<&str, &str>, options: &[String]) {
+/// This function is called at the end of `main` to serve as a placeholder for
+/// the actual functionality.
+/// 
+/// # Arguments
+/// * `confirmation` - The string you need to type to confirm.
+/// * `confirmation_prompt` - The prompt to display when confirming.
+/// * `messages` - The `Messages` struct containing the error messages.
+/// * `options` - The command-line options.
+/// 
+/// # Returns
+/// * `()` - Nothing.
+/// 
+/// # Exits
+/// * `0` - If the user confirms the action.
+/// 
+/// This is just a placeholder function, so it doesn't need to go in functions.rs.
+fn placeholder_behaviour(confirmation: &str, confirmation_prompt: &str, messages: &HashMap<&str, &str>, options: &[String]) {
     println!("Apologies, but there's nothing useful beyond this point.");
     if confirm_with_prompt("Want to quit?", confirmation, confirmation_prompt, messages, options) {
         std::process::exit(0);
     }
 }
 
+/// I don't think I need to tell you what the main function is.
 fn main() {
     let messages = Messages::new();
     let args: Vec<String> = std::env::args().collect();
@@ -21,57 +37,18 @@ fn main() {
         std::process::exit(1);
     }
 
-    let utility_name = &args[1];
-    let options = &args[2..];
-
-    let valid_options: Vec<&str> = vec![
-        "--and-init",   // Initialize a new Git repository automatically
-        "--backup",     // Back up to HOME_PATH/frickoff-backups instead of deleting
-        "--debug",      // Print debug info and quit
-        "--help",       // Print a help message
-        "--no-confirm", // Don't bother with the confirmation prompt
-        "--no-jokes",   // "Serious" mode: uses the `serious` messages
-        "--options",    // Print "That is VERY funny" and quit
-        "--paranoid",   // Change "Enter Y/N" to "Enter 'Yes, do as I say!"
-        "--verbose",    // Verbose output
-    ];
-
-    let home_path = home_dir().expect("Failed to get home directory");
-    let config_path = config_dir().expect("Failed to get config directory");
+    let (home_path, config_path) = set_paths();
     let config_file_path = config_path.join("frickoff").join("config.toml");
 
-    create_config_if_needed(&config_file_path);
-    let configuration = config::read_config(&config_file_path);
+    let configuration = initialise_config(&config_file_path);
 
-    let messages = determine_message_type(options, &configuration, &messages);
+    let (utility_name, options) = handle_command_line_args(&args);
+    let (confirmation, confirmation_prompt) = determine_confirmation(&options, &configuration);
 
-    let (
-        confirmation, 
-        confirmation_prompt
-    ) = determine_confirmation(options, &configuration);
+    let valid_options: Vec<&str> = get_valid_options();
+    let messages = determine_message_type(&options, &configuration, &messages);
 
-    if options.contains(&"--options".to_string()) {
-        println!("{}", messages.get("literal_options").unwrap());
-        std::process::exit(1);
-    }
+    handle_options(&utility_name, &home_path, &config_path, &messages, configuration, &valid_options, &options);
 
-    if options.len() > 1 && !valid_options.contains(&options[0].as_str()) {
-        println!("Invalid option: {}", options[0]);
-        std::process::exit(1);
-    }
-
-    if options.contains(&"--debug".to_string()) {
-        match configuration {
-            Ok(config) => {
-                print_debug_info(utility_name, options, &home_path, &config_path, &messages, config);
-                std::process::exit(0);
-            }
-            Err(err) => {
-                eprintln!("Error reading config file: {}", err);
-                std::process::exit(1);
-            }
-        }
-    }
-
-    placeholder_behaviour(confirmation, confirmation_prompt, &messages, options);
+    placeholder_behaviour(confirmation, confirmation_prompt, &messages, &options);
 }
