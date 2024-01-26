@@ -84,6 +84,13 @@ fn main() {
         &messages.jokey
     };
 
+    let confirmation_prompt = if options.contains(&"--paranoid".to_string()) {
+        "To continue type in the phrase \"Yes, do as I say!\""
+    }
+    else {
+        "(Y/N)"
+    };
+
     if options.contains(&"--options".to_string()) {
         println!("{}", messages.get("literal_options").unwrap());
         std::process::exit(0);
