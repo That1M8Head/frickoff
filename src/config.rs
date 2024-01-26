@@ -51,15 +51,16 @@ impl Config {
 fn expand_path(path: &str) -> String {
     let home_dir = dirs::home_dir().expect("Failed to get home directory");
     let config_dir = dirs::config_dir().expect("Failed to get config directory");
+    let config_local_dir = dirs::config_local_dir().expect("Failed to get local config directory");
 
     let path = path
         .replace("HOME", home_dir.to_str().unwrap())
         .replace("CONFIG", config_dir.to_str().unwrap())
+        .replace("LOCAL", config_local_dir.to_str().unwrap())
         .replace("\\", "/");
 
     path
 }
-
 
 /// The `AppConfig` struct represents the configuration file for Frick Off,
 /// not the paths to text editors or other utilities.
