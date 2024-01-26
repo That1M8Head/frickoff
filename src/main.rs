@@ -42,9 +42,10 @@ impl Messages {
     }
 }
 
-fn print_debug_info(utility_name: &str, options: &[String], config_path: &PathBuf, messages: &HashMap<&str, &str>) {
+fn print_debug_info(utility_name: &str, options: &[String], home_path: &PathBuf, config_path: &PathBuf, messages: &HashMap<&str, &str>) {
     println!("Chosen utility's name: {}", utility_name);
     println!("Command line options: {:?}", options);
+    println!("User home path: {}", home_path.display());
     println!("Configuration path: {}", config_path.display());
     println!("Messages: {:?}", messages);
 }
@@ -107,7 +108,7 @@ fn main() {
     }
 
     if options.contains(&"--debug".to_string()) {
-        print_debug_info(utility_name, options, &config_path, messages);
+        print_debug_info(utility_name, options, &home_path, &config_path, messages);
         std::process::exit(0);
     }
 
