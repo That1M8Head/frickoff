@@ -84,11 +84,11 @@ fn main() {
         &messages.jokey
     };
 
-    let confirmation_prompt = if options.contains(&"--paranoid".to_string()) {
-        "To continue type in the phrase \"Yes, do as I say!\""
+    let (confirmation, confirmation_prompt) = if options.contains(&"--paranoid".to_string()) {
+        ("Yes, do as I say!", "To continue type in the phrase \"Yes, do as I say!\"")
     }
     else {
-        "(Y/N)"
+        ("Y", "(Y/N)")
     };
 
     if options.contains(&"--options".to_string()) {
@@ -98,7 +98,7 @@ fn main() {
 
     let config_path = config_dir().expect(messages.get("no_config_directory").unwrap());
 
-    if !valid_options.contains(&options[0].as_str()) {
+    if options.len() > 1 && !valid_options.contains(&options[0].as_str()) {
         println!("Invalid option: {}", options[0]);
         std::process::exit(1);
     }
@@ -109,4 +109,13 @@ fn main() {
     }
 
     println!("Apologies, but there's nothing useful beyond this point.");
+    println!("Want to quit?");
+
+    println!("{}", confirmation_prompt);
+    let mut to_quit = String::new();
+    std::io::stdin().read_line(&mut to_quit).unwrap();
+    if to_quit.trim() != confirmation {
+        println!("{}", messages.get("cancelled").unwrap());
+        std::process::exit(0);
+    }
 }
