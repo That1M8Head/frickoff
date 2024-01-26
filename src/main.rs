@@ -66,14 +66,14 @@ fn main() {
 
     let home_path = home_dir().expect("Failed to get home directory");
     let config_path = config_dir().expect("Failed to get config directory");
-    let config_file_path = config_path.join("/frickoff/config.toml");
+    let config_file_path = config_path.join("frickoff").join("config.toml");
 
-    if !config::config_exists(config_file_path.to_str().unwrap()) {
+    if !config::config_exists(&config_file_path) {
         println!("No config exists - creating one.");
-        config::create_config(config_file_path.to_str().unwrap());
+        config::create_config(&config_file_path);
     }
 
-    let configuration = config::read_config(config_file_path.to_str().unwrap());
+    let configuration = config::read_config(&config_file_path);
 
     let args: Vec<String> = std::env::args().collect();
     let only_options = args.len() == 2 && args[1].starts_with("--");
